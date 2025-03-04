@@ -37,15 +37,17 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
   }
 
   return (
-    <View
+    <View style={{
+      backgroundColor:colors.primary
+    }}>
+  <View
       style={{
-        backgroundColor: colors.primary,
+        backgroundColor: colors.secondary,
         flexDirection: 'row',
-        borderTopWidth: 1,
         borderTopColor: Color.blueGray[100],
         height: 65,
         borderTopRightRadius: 20,
-        borderTopLeftRadius: 20,
+        borderTopLeftRadius:20,
       }}
     >
       {state.routes.map((route, index) => {
@@ -113,7 +115,7 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
                 type="ionicon"
                 name={iconName}
                 size={35}
-                color={isFocused ? colors.white : colors.secondary}
+                color={isFocused ? colors.white : colors.primary}
               />
              
             </View>
@@ -121,6 +123,8 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
         );
       })}
     </View>
+    </View>
+  
   );
 }
 

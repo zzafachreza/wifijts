@@ -5,18 +5,18 @@ import { useNavigation } from '@react-navigation/native';
 import { Icon } from 'react-native-elements';
 import { getData } from '../../utils/localStorage';
 import MyMenu from '../MyMenu';
-export default function MyHeader({ onPress, color = colors.white, title, icon = false, iconname = 'search' }) {
+export default function MyHeader({ onPress, color = colors.primary, title, icon = false, iconname = 'search' }) {
   const navigation = useNavigation();
   return (
 
 
-    <ImageBackground source={require('../../assets/bgheader.png')} style={{
+    <View  style={{
       marginTop: 0,
       marginHorizontal: 0,
       flexDirection: 'row',
       alignItems: 'flex-end',
       paddingVertical: 20,
-      backgroundColor: colors.primary,
+      backgroundColor: colors.secondary,
       padding: 20,
       justifyContent: 'center',
 
@@ -50,7 +50,7 @@ export default function MyHeader({ onPress, color = colors.white, title, icon = 
           <Icon name={iconname} size={20} color={color} />
         </TouchableOpacity>
       }
-    </ImageBackground>
+    </View>
 
   );
 }

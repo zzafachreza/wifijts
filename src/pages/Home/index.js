@@ -42,14 +42,163 @@ export default function Home({ navigation, route }) {
       source={require('../../assets/bghome.png')}
       style={{
         flex: 1,
-        backgroundColor: colors.white,
+        backgroundColor: colors.primary,
         width: '100%',
         height: '100%',
       }}
     >
       <ScrollView>
-        <View style={{ padding: 10 }}>
+        <View style={{ padding: 10, marginTop:50}}>
           {/* Sambutan & nama */}
+
+          <View style={{
+            padding:10,
+           
+            flexDirection:'row',
+            justifyContent:'space-between',
+            alignItems:"center"
+
+          }}>
+
+          <View>
+            <Text style={{fontFamily:fonts.primary[600], fontSize:20, color:colors.white}}>Halo, <Text style={{fontFamily:fonts.primary[400]}}>Fadhlan Himawan</Text></Text>
+            <Text style={{fontFamily:fonts.primary[400], fontSize:15, color:colors.white}}>Jaringan Teman Sejati</Text>
+          </View>
+
+          <View>
+            <Image style={{
+              height:50,
+              width:50,
+            }} source={require('../../assets/logo.png')}/>
+          </View>
+
+          </View>
+          {/* end headers */}
+
+          {/* menu */}
+          <View style={{
+            padding:10,
+
+            marginTop:'20%'
+          }}>
+
+          <View style={{
+            flexDirection:'row',
+            justifyContent:'space-between',
+            alignItems:'center' 
+          }}>
+
+          <View>
+            <TouchableNativeFeedback>
+              <View style={{
+                padding:10,
+                backgroundColor:colors.secondary,
+                width:120,
+                height:120,
+                borderRadius:20,
+                alignContent:"center",
+                justifyContent:'center'
+              }}>
+                <Image style={{
+                  width:70,
+                  height:70,
+                  alignSelf:"center"
+                }} source={require('../../assets/icon_voucher.png')}/>
+                <Text style={{
+                  fontFamily:fonts.primary[600],
+                  fontSize:12,
+                  textAlign:"center"
+                }}>Beli Voucher</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+
+          <View>
+            <TouchableNativeFeedback>
+              <View style={{
+                padding:10,
+                backgroundColor:colors.secondary,
+                width:120,
+                height:120,
+                borderRadius:20,
+              }}>
+                <Image style={{
+                  width:70,
+                  height:70,
+                  alignSelf:"center"
+                }} source={require('../../assets/pembelian.png')}/>
+                <Text style={{
+                  fontFamily:fonts.primary[600],
+                  fontSize:12,
+                  textAlign:"center"
+                }}>Pembelian</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+
+          </View>
+
+
+
+
+          <View style={{
+            flexDirection:'row',
+            justifyContent:'space-between',
+            alignItems:'center',
+            marginTop:25
+          }}>
+
+          <View>
+            <TouchableNativeFeedback>
+              <View style={{
+                padding:10,
+                backgroundColor:colors.secondary,
+                width:120,
+                height:120,
+                borderRadius:20,
+              }}>
+
+<Image style={{
+                  width:70,
+                  height:63,
+                  alignSelf:"center"
+                }} source={require('../../assets/suksesvoucher.png')}/>
+                <Text style={{
+                  fontFamily:fonts.primary[600],
+                  fontSize:12,
+                  textAlign:"center",
+                  marginTop:10
+                }}>Sukses Voucher</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+
+          <View>
+            <TouchableNativeFeedback>
+              <View style={{
+                padding:10,
+                backgroundColor:colors.secondary,
+                width:120,
+                height:120,
+                borderRadius:20,
+              }}>
+                
+<Image style={{
+                  width:70,
+                  height:70,
+                  alignSelf:"center"
+                }} source={require('../../assets/riwayat_icon.png')}/>
+                <Text style={{
+                  fontFamily:fonts.primary[600],
+                  fontSize:12,
+                  textAlign:"center"
+                }}>History</Text>
+              </View>
+            </TouchableNativeFeedback>
+          </View>
+
+          </View>
+          </View>
         
         </View>
       </ScrollView>

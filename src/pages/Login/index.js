@@ -7,12 +7,12 @@ import axios from 'axios';
 
 export default function Login({navigation}) {
     const [data, setData] = useState({
-        email: '',
+        username: '',
         password:'',
     });
 
     const handleLogin = () => {
-        if (data.email.length == '' || data.password.length == '') {
+        if (data.username.length == '' || data.password.length == '') {
             showMessage({
                 type:'danger',
                 backgroundColor:colors.danger,
@@ -22,18 +22,7 @@ export default function Login({navigation}) {
                 style:{borderBottomRightRadius:10, borderBottomLeftRadius:10,},
                 textStyle:{fontFamily:fonts.primary[600]}
             });
-        } else if (data.email.length == '') {
-            showMessage({
-                type:'danger',
-                backgroundColor:colors.danger,
-                color:colors.white,
-                message:'Email Harus Diisi!',
-                position:'top',
-                style:{borderBottomRightRadius:10, borderBottomLeftRadius:10,},
-                textStyle:{fontFamily:fonts.primary[600]}
-                
-            });
-        } else if (data.password.length == '') {
+        }  else if (data.password.length == '') {
             showMessage({
                 type:'danger',
                 backgroundColor:colors.white,
@@ -106,11 +95,11 @@ export default function Login({navigation}) {
             <View style={{
                 padding:10
             }}>
-                <MyInput value={data.email} 
+                <MyInput value={data.username} 
                 label="Username" 
                 placeholder="Isi Username"  
                 colorlabel='white'
-                onChangeText={(x) => setData({...data, 'email':x})}
+                onChangeText={(x) => setData({...data, 'username':x})}
                 />
 
                 <MyInput 

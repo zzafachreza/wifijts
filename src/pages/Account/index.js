@@ -78,7 +78,7 @@ export default function ({ navigation, route }) {
                  <Text
                     style={{
                        fontFamily:fonts.primary[600],
-                       color:colors.primary,
+                       color:colors.white,
                        marginLeft:10
 
                     }}>
@@ -111,7 +111,7 @@ export default function ({ navigation, route }) {
     return (
         <SafeAreaView style={{
             flex: 1,
-            backgroundColor: colors.white
+            backgroundColor: colors.primary
         }}>
 
 
@@ -137,39 +137,10 @@ export default function ({ navigation, route }) {
                             
                         </View>
                         <View style={{ padding: 10, }}>
-                            <MyList label="Nama Lengkap :" value={'Angga Kurniawan'} />
-                            <MyList label="Email :" value={'anggakurniawan12@gmail.com'} />
-                            <MyList label="Telepon :" value={'0865665467467'} />
-                            <MyList label="Alamat Lengkap :" value={'Depok, Jawa Barat'} />
-                            <View style={{
-                                padding:10,
-                                marginTop:10,
-
-                            }}>
-
-                            <Text style={{
-                                fontFamily  :fonts.primary[600],
-                                color:colors.primary
-                            }}>
-                            Foto Tanda Tangan : 
-                            </Text>
-
-                            <View style={{
-                                padding:10,
-                                marginTop:10,
-                                backgroundColor:Color.blueGray[50],
-                                borderRadius:30
-                            }}>
-
-                            <Image style={{
-                                width:127,
-                                height:120,
-                                alignSelf:'center'
-                            }} source={require('../../assets/ttd_dummmy.png')}/>
-
-                            </View>
-
-                            </View>
+                            <MyList label="Username :" value={'Angga Kurniawan'} />
+                            <MyList label="Nama Lengkap :" value={'anggakurniawan12@gmail.com'} />
+                           
+                    
                            
                         </View>
                         {/* data detail */}
