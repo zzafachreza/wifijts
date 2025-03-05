@@ -38,93 +38,95 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
 
   return (
     <View style={{
-      backgroundColor:colors.primary
+      backgroundColor: colors.primary
     }}>
-  <View
-      style={{
-        backgroundColor: colors.secondary,
-        flexDirection: 'row',
-        borderTopColor: Color.blueGray[100],
-        height: 65,
-        borderTopRightRadius: 20,
-        borderTopLeftRadius:20,
-      }}
-    >
-      {state.routes.map((route, index) => {
-        const { options } = descriptors[route.key];
-        const label =
-          options.tabBarLabel !== undefined
-            ? options.tabBarLabel
-            : options.title !== undefined
-            ? options.title
-            : route.name;
+      <View
+        style={{
+          backgroundColor: colors.secondary,
+          flexDirection: 'row',
+          borderTopColor: Color.blueGray[100],
+          height: 60,
+          // borderRadius: 20,
+          marginBottom: 0,
+          // marginHorizontal: 20,
+          alignItems: 'center',
+        }}
+      >
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+                ? options.title
+                : route.name;
 
-        const isFocused = state.index === index;
+          const isFocused = state.index === index;
 
-        const onPress = () => {
-          const event = navigation.emit({
-            type: 'tabPress',
-            target: route.key,
-            canPreventDefault: true,
-          });
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
 
-          if (!isFocused && !event.defaultPrevented) {
-            navigation.navigate(route.name, { key: 0 });
+            if (!isFocused && !event.defaultPrevented) {
+              navigation.navigate(route.name, { key: 0 });
+            }
+          };
+
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key,
+            });
+          };
+
+          let iconName;
+          switch (label) {
+            case 'Home':
+              iconName = isFocused ? 'home' : 'home-outline';
+              break;
+            case 'Profile':
+              iconName = isFocused ? 'person' : 'person-outline';
+              break;
+            default:
+              iconName = 'help-circle-outline';
+              break;
           }
-        };
 
-        const onLongPress = () => {
-          navigation.emit({
-            type: 'tabLongPress',
-            target: route.key,
-          });
-        };
-
-        let iconName;
-        switch (label) {
-          case 'Home':
-            iconName = isFocused ? 'home' : 'home-outline';
-            break;
-          case 'Profile':
-            iconName = isFocused ? 'person' : 'person-outline';
-            break;
-          default:
-            iconName = 'help-circle-outline';
-            break;
-        }
-
-        return (
-          <TouchableOpacity
-            key={index}
-            accessibilityRole="button"
-            accessibilityStates={isFocused ? ['selected'] : []}
-            accessibilityLabel={options.tabBarAccessibilityLabel}
-            testID={options.tabBarTestID}
-            onPress={onPress}
-            onLongPress={onLongPress}
-            style={{ flex: 1 }}
-          >
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                height: 65,
-              }}
+          return (
+            <TouchableOpacity
+              key={index}
+              accessibilityRole="button"
+              accessibilityStates={isFocused ? ['selected'] : []}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              style={{ flex: 1 }}
             >
-              <Icon
-                type="ionicon"
-                name={iconName}
-                size={35}
-                color={isFocused ? colors.white : colors.primary}
-              />
-             
-            </View>
-          </TouchableOpacity>
-        );
-      })}
+              <View
+                style={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  height: 60,
+                }}
+              >
+                <Icon
+                  type="ionicon"
+                  name={iconName}
+                  size={30}
+                  color={isFocused ? colors.white : colors.primary}
+                />
+
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
     </View>
-    </View>
-  
+
   );
 }
 

@@ -13,7 +13,7 @@ export default function MyPicker({
 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const [selectedItem, setSelectedItem] = useState(data[0]);  // Default selected item
-  
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
       style={styles.itemContainer}
@@ -32,7 +32,7 @@ export default function MyPicker({
       <Text
         style={{
           fontFamily: fonts.primary[600],
-          color: colors.primary,
+          color: colors.white,
           marginBottom: 8,
           marginTop: 10,
           marginLeft: 10,
@@ -46,14 +46,14 @@ export default function MyPicker({
         onPress={() => setModalVisible(true)}
       >
         <View style={styles.iconContainer}>
-          <Icon type="ionicon" name={iconname} color={Color.blueGray[300]} size={24} />
+          <Icon type="ionicon" name={iconname} color={Color.blueGray[300]} size={22} />
         </View>
         {/* Menampilkan nilai yang dipilih atau teks placeholder */}
         <Text style={styles.selectedText}>
-          {selectedItem ? selectedItem.label : 'Select an option'}
+          {selectedItem ? selectedItem.label : 'Silahkan pilih'}
         </Text>
         <View style={styles.iconContainer}>
-          <Icon type="ionicon" name="caret-down-outline" color={Color.blueGray[300]} size={24} />
+          <Icon type="ionicon" name="caret-down-outline" color={Color.blueGray[300]} size={22} />
         </View>
       </TouchableOpacity>
 
@@ -85,22 +85,23 @@ const styles = StyleSheet.create({
   pickerContainer: {
     backgroundColor: colors.white,
     borderWidth: 1,
-    borderRadius: 30,
+    borderRadius: 10,
     borderColor: Color.blueGray[300],
-    minHeight: 60,  // Atur minimum height supaya cukup untuk teks panjang
+    minHeight: 45,  // Atur minimum height supaya cukup untuk teks panjang
     flexDirection: 'row',
     alignItems: 'center',
-    paddingHorizontal: 15,
+    paddingHorizontal: 10,
     justifyContent: 'space-between',
   },
   iconContainer: {
     flex: 1,
   },
   selectedText: {
+    paddingLeft: 4,
     flex: 8,
-    fontSize: 14,
-    fontFamily: fonts.primary[500],
-    color: colors.primary,
+    fontSize: fonts.body3.fontSize,
+    color: Color.blueGray[900],
+    fontFamily: fonts.body3.fontFamily,
     textAlign: 'left',  // Teks diatur agar di kiri
     flexShrink: 1,      // Agar teks bisa disesuaikan dengan ruang yang ada
     flexWrap: 'wrap',   // Agar teks panjang bisa dibungkus ke baris berikutnya

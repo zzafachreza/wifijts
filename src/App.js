@@ -31,13 +31,15 @@ export default function App() {
               borderWidth: 1,
               borderColor: Color.blueGray[100],
               flexDirection: 'row',
+              alignItems: 'center'
             }}>
               {toast.type == 'success' ? <Icon type='ionicon' name='checkmark-circle' color={Color.tealGreen[500]} size={24} /> : toast.type == 'warning' ? <Icon type='ionicon' name='information-circle' color={Color.blueGray[400]} size={24} /> : <Icon type='ionicon' name='close-circle' color={Color.red[500]} size={24} />}
               <Text style={{
                 left: 10,
                 flex: 1,
-                ...fonts.body3,
-                color: Color.primary[900]
+                fontFamily: fonts.secondary[600],
+                fontSize: 12,
+                color: colors.black
               }}>{toast.message}</Text>
               {/* <Pressable>
                 <Icon type='ionicon' name='close' color={Color.blueGray[400]} />

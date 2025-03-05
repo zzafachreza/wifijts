@@ -4,118 +4,104 @@ import { colors, fonts } from '../../utils'
 import { MyInput } from '../../components'
 import { showMessage } from 'react-native-flash-message';
 import axios from 'axios';
-
-export default function Login({navigation}) {
+import { apiURL, storeData } from '../../utils/localStorage';
+import { useToast } from "react-native-toast-notifications";
+export default function Login({ navigation }) {
     const [data, setData] = useState({
         username: '',
-        password:'',
+        password: '',
     });
 
-    const handleLogin = () => {
-        if (data.username.length == '' || data.password.length == '') {
-            showMessage({
-                type:'danger',
-                backgroundColor:colors.danger,
-                color:colors.white,
-                message:'Semua Field Harus Diisi!',
-                position:'top',
-                style:{borderBottomRightRadius:10, borderBottomLeftRadius:10,},
-                textStyle:{fontFamily:fonts.primary[600]}
-            });
-        }  else if (data.password.length == '') {
-            showMessage({
-                type:'danger',
-                backgroundColor:colors.white,
-                color:colors.danger,
-                message:'Password Harus Diisi!',
-            });
-        }  else {
-            console.log('Data yang dikirim: ', data);
+    const toast = useToast();
+    const login = async () => {
+        try {
 
-            axios
-            .post('API KEY', data)
-            .then((res) => {
-                if (res.data.status == 'success') {
-                    showMessage({
-                        type:'success',
-                        backgroundColor:colors.white,
-                        color:colors.success,
-                        message:res.data.message
-                    });
-                    navigation.navigate('Home');
-                } else {
-                    showMessage({
-                        type:'danger',
-                        backgroundColor:colors.white,
-                        color:colors.danger,
-                        message:res.data.message
-                    });
-                }
-            
-            })
-            .catch((err) => {
-                console.error('Error: ', err);
-            })
+            if (data.username.length == 0) {
+                toast.show('Username tidak boleh kosong !')
+            } else if (data.password.length == 0) {
+                toast.show('Password tidak boleh kosong !')
+            } else {
+
+                axios.post(apiURL + 'login', {
+                    username: data.username,
+                    tipe: "reseller",
+                    password: data.password
+                }).then(res => {
+                    console.log(res.data)
+                    if (res.data.status == "success") {
+                        storeData('user', res.data);
+                        navigation.replace('MainApp')
+                    } else {
+                        toast.show(res.data.message)
+                    }
+                })
+            }
+
+            ;
+        } catch (error) {
+            console.error('Error:', error);
         }
     };
 
 
-  return (
-    <ImageBackground style={{
-        flex:1,
-        width:'100%',
-        height:'100%',
-        backgroundColor:'white'
-    }} source={require('../../assets/bgsplash.png')}>
-      <ScrollView>
-        <View style={{
-            padding:10,
-        }}>
-
-       
-        <View style={{
-            alignItems:"center",
-            justifyContent:"center",
-            marginTop:'30%',
-        }}>
-            <Image style={{width:200, height:200, alignItems:"center"}} source={require('../../assets/logo.png')}/>
-        </View>
-        <View style={{
-            marginTop:'10%',
-            padding:10
-        }}>
-            <Text style={{
-                fontFamily:fonts.primary[600],
-                color:'white',
-                fontSize:25,
-                textAlign:'center'
-                
-            }}>Login</Text>
-
-            <View style={{
-                padding:10
-            }}>
-                <MyInput value={data.username} 
-                label="Username" 
-                placeholder="Isi Username"  
-                colorlabel='white'
-                onChangeText={(x) => setData({...data, 'username':x})}
-                />
-
-                <MyInput 
-                label="Password" 
-                placeholder="Isi Password"  
-                colorlabel='white'
-                secureTextEntry={true}
-                value={data.password}
-                onChangeText={(x) => setData({...data, 'password':x})}
-                />
-
+    return (
+        <ImageBackground style={{
+            flex: 1,
+            width: '100%',
+            height: '100%',
+            backgroundColor: 'white'
+        }} source={require('../../assets/bgsplash.png')}>
+            <ScrollView>
                 <View style={{
-                    flexDirection:'row',
-                    justifyContent:"flex-end"
+                    padding: 10,
                 }}>
-                    {/* <TouchableNativeFeedback>
+
+
+                    <View style={{
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: '30%',
+                    }}>
+                        <Image style={{ width: 200, height: 200, alignItems: "center" }} source={require('../../assets/logo.png')} />
+                    </View>
+                    <View style={{
+                        marginTop: '10%',
+                        padding: 10
+                    }}>
+                        <Text style={{
+                            fontFamily: fonts.primary[600],
+                            color: 'white',
+                            fontSize: 25,
+                            textAlign: 'center'
+
+                        }}>Login</Text>
+
+                        <View style={{
+                            padding: 10
+                        }}>
+                            <MyInput value={data.username}
+                                iconname='at'
+                                label="Username"
+                                placeholder="Masukan Username"
+                                colorlabel='white'
+                                onChangeText={(x) => setData({ ...data, 'username': x })}
+                            />
+
+                            <MyInput
+                                iconname='lock-closed-outline'
+                                label="Password"
+                                placeholder="Masukan Password"
+                                colorlabel='white'
+                                secureTextEntry={true}
+                                value={data.password}
+                                onChangeText={(x) => setData({ ...data, 'password': x })}
+                            />
+
+                            <View style={{
+                                flexDirection: 'row',
+                                justifyContent: "flex-end"
+                            }}>
+                                {/* <TouchableNativeFeedback>
                         <View style={{
                             marginTop:10,
                         }}>
@@ -126,38 +112,37 @@ export default function Login({navigation}) {
                             }}>Lupa Kata Sandi</Text>
                         </View>
                     </TouchableNativeFeedback> */}
-                </View>
+                            </View>
 
 
-                <View>
-                    <TouchableNativeFeedback onPress={handleLogin}>
-                        <View style={{
-                            padding:10,
-                            backgroundColor:colors.secondary,
-                            borderRadius:30,
-                            marginTop:10,
-                            borderWidth:2,
-                            borderColor:colors.white
+                            <View>
+                                <TouchableNativeFeedback onPress={login}>
+                                    <View style={{
+                                        padding: 10,
+                                        backgroundColor: colors.secondary,
+                                        borderRadius: 10,
+                                        marginTop: 20,
+                                        borderColor: colors.white
 
-                        }}>
-                        <Text style={{
-                            fontFamily:fonts.primary[800], 
-                            color:colors.primary,
-                            textAlign:"center"
-                            }}>Login</Text>
+                                    }}>
+                                        <Text style={{
+                                            fontFamily: fonts.primary[800],
+                                            color: colors.primary,
+                                            textAlign: "center"
+                                        }}>Login</Text>
 
+                                    </View>
+                                </TouchableNativeFeedback>
+
+
+                            </View>
                         </View>
-                    </TouchableNativeFeedback>
+                    </View>
 
-                    
+
+
                 </View>
-            </View>
-        </View>
-
-       
-    
-        </View>
-      </ScrollView>
-    </ImageBackground>
-  )
+            </ScrollView>
+        </ImageBackground>
+    )
 }

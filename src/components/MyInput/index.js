@@ -17,7 +17,7 @@ export default function MyInput({
   iconname,
   onChangeText,
   value,
-  colorlabel=colors.black,
+  colorlabel = colors.black,
   borderWidth = 1,
   textColor = colors.black,
   keyboardType,
@@ -34,19 +34,19 @@ export default function MyInput({
 
   const [tutup, setTutup] = useState(true);
   return (
-    <View style={{marginTop:10}}>
+    <View style={{ marginTop: 10 }}>
       <Text style={{
-        fontFamily:fonts.primary[600],
+        fontFamily: fonts.primary[600],
         color: colorlabel,
         marginBottom: 8,
-        marginLeft:10
+        marginLeft: 10
       }}>{label}</Text>
       <View style={{
-        height: 40,
+        height: 45,
         flexDirection: 'row', // Gunakan row agar TextInput dan label bisa sejajar
         alignItems: 'center', // Align center agar teks sejajar vertikal
         borderWidth: 1,
-        borderRadius: 30,
+        borderRadius: 10,
         borderColor: borderColor,
         backgroundColor: 'white',
       }}>
@@ -54,7 +54,7 @@ export default function MyInput({
           <View style={{
             paddingLeft: 12,
           }}>
-            <Icon type='ionicon' name={iconname} color={Color.blueGray[300]} size={24} />
+            <Icon type='ionicon' name={iconname} color={Color.blueGray[300]} size={22} />
           </View>
         )}
         <TextInput
@@ -71,11 +71,12 @@ export default function MyInput({
           secureTextEntry={secureTextEntry ? tutup : false}
           autoCapitalize="none"
           style={{
-            ...fonts.body3,
+
             flex: 1, // Flex untuk mengisi ruang yang ada
             paddingLeft: icon ? 10 : 40,
             paddingRight: rightLabel ? 10 : 0, // Spasi tambahan jika ada rightLabel
-            height: 40,
+            height: 45,
+            ...fonts.body3,
             color: Color.blueGray[900],
           }}
         />

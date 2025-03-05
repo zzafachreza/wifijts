@@ -13,6 +13,10 @@ import DonwnloadBrosur from './Menu/downloadbrosur';
 import BuktiPengeluaran from './Menu/buktipengeluaran';
 import TambahBuktiPengeluaran from './Menu/tambahbuktipengeluaran';
 import HasilBuatPenawaran from './Menu/hasilbuatpenawaran';
+import Beli from './Menu/Beli';
+import Riwayat from './Menu/Riwayat';
+import Printer from './Menu/Printer';
+import Detail from './Menu/Detail';
 
 
 
@@ -22,6 +26,10 @@ import HasilBuatPenawaran from './Menu/hasilbuatpenawaran';
 export {
   Splash,
   Home,
+  Detail,
+  Beli,
+  Riwayat,
+  Printer,
   Login,
   Account,
   AccountEdit,
@@ -39,6 +47,6 @@ export {
 
 
 
-  
+
 
 };

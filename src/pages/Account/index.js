@@ -10,7 +10,7 @@ import {
     ActivityIndicator,
 } from 'react-native';
 import { windowWidth, fonts, MyDimensi } from '../../utils/fonts';
-import { getData, MYAPP, storeData, urlAPI, urlApp, urlAvatar } from '../../utils/localStorage';
+import { apiURL, getData, MYAPP, storeData, urlAPI, urlApp, urlAvatar } from '../../utils/localStorage';
 import { Color, colors } from '../../utils/colors';
 import { MyButton, MyGap, MyHeader } from '../../components';
 import { Icon } from 'react-native-elements';
@@ -21,6 +21,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import moment from 'moment';
 import { ScrollView } from 'react-native';
 import { Collator } from 'intl';
+import { useToast } from 'react-native-toast-notifications';
 
 export default function ({ navigation, route }) {
     const [user, setUser] = useState({});
@@ -49,6 +50,7 @@ export default function ({ navigation, route }) {
     }, [isFocused]);
 
 
+    const toast = useToast();
 
     const btnKeluar = () => {
         Alert.alert(MYAPP, 'Apakah kamu yakin akan keluar ?', [
@@ -58,13 +60,29 @@ export default function ({ navigation, route }) {
             },
             {
                 text: 'Keluar',
-                onPress: () => {
-                    storeData('user', null);
+                onPress: async () => {
+                    try {
+                        const response = await axios.post(apiURL.replace("apiapk", "api") + 'logout', {}, {
+                            headers: {
+                                'Authorization': `Bearer ${user.token}`
+                            }
+                        });
 
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'Splash' }],
-                    });
+                        console.log(response.data);
+
+                        if (response.data.status === 'success') {
+                            storeData('user', null);
+                            navigation.reset({
+                                index: 0,
+                                routes: [{ name: 'Splash' }],
+                            });
+                        } else {
+                            toast.show(response.data.message);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        toast.show('Terjadi kesalahan, silakan coba lagi.');
+                    }
                 }
             }
         ])
@@ -73,13 +91,15 @@ export default function ({ navigation, route }) {
     const MyList = ({ label, value }) => {
         return (
             <View style={{
-                marginTop:10
+                marginTop: 4,
+                borderBottomWidth: 1,
+                borderBottomColor: Color.blueGray[400],
             }}>
-                 <Text
+                <Text
                     style={{
-                       fontFamily:fonts.primary[600],
-                       color:colors.white,
-                       marginLeft:10
+                        fontFamily: fonts.secondary[600],
+                        color: colors.white,
+                        marginLeft: 10
 
                     }}>
                     {label}
@@ -87,25 +107,24 @@ export default function ({ navigation, route }) {
 
 
                 <View
-                style={{
-                    marginVertical: 2,
-                    padding: 5,
-                    paddingHorizontal: 10,
-                    backgroundColor: Color.blueGray[50],
-                    borderRadius: 30,
-                    height:40
-                }}>
-               
-                <Text
                     style={{
-                        ...fonts.body3,
-                        color: Color.blueGray[900],
+                        // padding: 10,
+                        paddingHorizontal: 10,
+                        // backgroundColor: Color.blueGray[50],
+                        borderRadius: 10,
+                        height: 45
                     }}>
-                    {value}
-                </Text>
+
+                    <Text
+                        style={{
+                            ...fonts.headline4,
+                            color: colors.white,
+                        }}>
+                        {value}
+                    </Text>
+                </View>
             </View>
-            </View>
-          
+
         )
     }
     return (
@@ -134,14 +153,16 @@ export default function ({ navigation, route }) {
                             justifyContent: 'center',
                             alignItems: 'center'
                         }}>
-                            
+
                         </View>
                         <View style={{ padding: 10, }}>
-                            <MyList label="Username :" value={'Angga Kurniawan'} />
-                            <MyList label="Nama Lengkap :" value={'anggakurniawan12@gmail.com'} />
-                           
-                    
-                           
+
+                            <MyList label="Nama" value={user.nama} />
+                            <MyList label="Tipe" value={user.tipe} />
+
+
+
+
                         </View>
                         {/* data detail */}
                     </View>
@@ -150,9 +171,8 @@ export default function ({ navigation, route }) {
                 <View style={{
                     padding: 20,
                 }}>
-                    <MyButton warna={colors.primary} title="Edit Profile"  onPress={() => navigation.navigate('AccountEdit', user)} />
-                    <MyGap jarak={10} />
-                    <MyButton onPress={btnKeluar} warna={Color.blueGray[400]} title="Log Out"  iconColor={colors.white} colorText={colors.white} />
+
+                    <MyButton onPress={btnKeluar} Icons='log-out-outline' warna={colors.secondary} title="Log Out" iconColor={colors.black} colorText={colors.black} />
                 </View>
             </ScrollView>
         </SafeAreaView >
