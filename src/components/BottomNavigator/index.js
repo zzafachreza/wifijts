@@ -42,9 +42,10 @@ export default function BottomNavigator({ state, descriptors, navigation }) {
     }}>
       <View
         style={{
+          borderTopWidth: 7,
           backgroundColor: colors.secondary,
           flexDirection: 'row',
-          borderTopColor: Color.blueGray[100],
+          borderTopColor: colors.white,
           height: 60,
           // borderRadius: 20,
           marginBottom: 0,

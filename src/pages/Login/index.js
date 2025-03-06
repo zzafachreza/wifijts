@@ -1,7 +1,7 @@
 import { View, Text, ImageBackground, ScrollView, Image, TouchableNativeFeedback, Alert } from 'react-native'
 import React, { useState } from 'react'
 import { colors, fonts } from '../../utils'
-import { MyInput } from '../../components'
+import { MyInput, MyPicker } from '../../components'
 import { showMessage } from 'react-native-flash-message';
 import axios from 'axios';
 import { apiURL, storeData } from '../../utils/localStorage';
@@ -10,6 +10,7 @@ export default function Login({ navigation }) {
     const [data, setData] = useState({
         username: '',
         password: '',
+        tipe: 'reseller',
     });
 
     const toast = useToast();
@@ -24,7 +25,7 @@ export default function Login({ navigation }) {
 
                 axios.post(apiURL + 'login', {
                     username: data.username,
-                    tipe: "reseller",
+                    tipe: data.tipe,
                     password: data.password
                 }).then(res => {
                     console.log(res.data)
@@ -60,12 +61,11 @@ export default function Login({ navigation }) {
                     <View style={{
                         alignItems: "center",
                         justifyContent: "center",
-                        marginTop: '30%',
+                        marginTop: '2%',
                     }}>
-                        <Image style={{ width: 200, height: 200, alignItems: "center" }} source={require('../../assets/logo.png')} />
+                        <Image style={{ width: 220, height: 150, resizeMode: 'contain', alignItems: "center" }} source={require('../../assets/newlogo.png')} />
                     </View>
                     <View style={{
-                        marginTop: '10%',
                         padding: 10
                     }}>
                         <Text style={{
@@ -77,8 +77,17 @@ export default function Login({ navigation }) {
                         }}>Login</Text>
 
                         <View style={{
-                            padding: 10
+                            padding: 5
                         }}>
+                            <MyPicker onChangeText={x => setData({
+                                ...data,
+                                tipe: x
+                            })} iconname="person-outline" label="Tipe"
+                                data={[
+                                    { label: 'Reseller', value: 'reseller' },
+                                    { label: 'Pelanggan', value: 'pelanggan' },
+                                ]}
+                            />
                             <MyInput value={data.username}
                                 iconname='at'
                                 label="Username"

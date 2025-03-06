@@ -1,4 +1,4 @@
-import { SafeAreaView, ImageBackground, StyleSheet, Text, View } from 'react-native'
+import { SafeAreaView, ImageBackground, StyleSheet, Text, View, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import { colors, fonts } from '../../utils'
 import { MyButton, MyGap, MyInput, MyPicker } from '../../components'
@@ -6,6 +6,7 @@ import { useToast } from 'react-native-toast-notifications';
 import MyLoading from '../../components/MyLoading';
 import { apiURL } from '../../utils/localStorage';
 import axios from 'axios';
+import { Icon } from 'react-native-elements';
 
 export default function Beli({ navigation, route }) {
     const user = route.params;
@@ -112,6 +113,30 @@ export default function Beli({ navigation, route }) {
                     ...kirim,
                     jumlah: x
                 })} value={kirim.jumlah} label="Jumlah" iconname="copy-outline" data={jumlah} />
+                <MyGap jarak={20} />
+                {user.tipe == 'reseller' &&
+                    <View>
+                        <TouchableOpacity onPress={() => {
+                            setKirim({
+                                ...kirim,
+                                bonus: !kirim.bonus
+                            });
+                        }} style={{
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                        }}>
+                            <Icon type='ionicon' name={kirim.bonus > 0 ? 'checkbox' : 'square-outline'} color={colors.white} />
+                            <Text style={{
+                                fontFamily: fonts.primary[600],
+                                color: colors.white,
+
+
+                                marginLeft: 10,
+                            }}>Beli Pakai Saldo Bonus</Text>
+
+                        </TouchableOpacity>
+                    </View>
+                }
                 <MyGap jarak={20} />
                 {!loading && <MyButton onPress={sendServer} warna={colors.secondary} title="Beli Voucher" colorText='black' iconColor='black' Icons="create-outline" />}
                 {loading && <View><MyGap jarak={20} /><MyLoading /></View>}

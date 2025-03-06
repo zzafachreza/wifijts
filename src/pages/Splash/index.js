@@ -12,6 +12,7 @@ import {
 import { MyButton, MyGap } from '../../components';
 import { MyDimensi, colors, fonts, windowHeight, windowWidth } from '../../utils';
 import { MYAPP, getData } from '../../utils/localStorage';
+import MyLoading from '../../components/MyLoading';
 
 export default function Splash({ navigation }) {
   const img = new Animated.Value(0.5);
@@ -51,7 +52,6 @@ export default function Splash({ navigation }) {
   return (
     <SafeAreaView style={{
       flex: 1,
-      padding: 0,
       backgroundColor: colors.white,
       justifyContent: 'center',
       position: 'relative'
@@ -62,38 +62,30 @@ export default function Splash({ navigation }) {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: colors.primary,
-        width: '100%',
-        height: '100%'
       }}>
 
-        <Animated.Image
-          source={require('../../assets/logo.png')}
-          resizeMode="contain"
-          style={{
-            transform: [{ scale: img }],
-            width: windowWidth / 1.5,
-            height: windowWidth / 1.5,
-            marginTop: '30%'
-          }}
-        />
-
         <View style={{
-          marginTop: '10%',
-          alignItems: "center"
-        }}>
-          <Animated.Text style={{
-            opacity: textOpacity,
-            transform: [{ scale: textScale }],
-            textAlign: 'center',
-            color: colors.white,
-            fontFamily: fonts.primary[600],
-            fontSize: 20,
-          }}>
-            Jaringan Teman Sejati
-          </Animated.Text>
-        </View>
+          // backgroundColor: 'red',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: 250,
 
-        <ActivityIndicator style={{ marginTop: 50 }} color={colors.primary} size="small" />
+        }}>
+          <Animated.Image
+            source={require('../../assets/newlogo.png')}
+            resizeMode="contain"
+            style={{
+              transform: [{ scale: img }],
+              width: windowWidth / 1.2,
+              height: windowWidth / 1.5,
+
+            }}
+          />
+
+
+
+          <MyLoading />
+        </View>
 
       </ImageBackground>
 

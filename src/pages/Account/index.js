@@ -158,7 +158,7 @@ export default function ({ navigation, route }) {
                         <View style={{ padding: 10, }}>
 
                             <MyList label="Nama" value={user.nama} />
-                            <MyList label="Tipe" value={user.tipe} />
+                            <MyList label="Tipe" value={user.tipe !== 'reseller' ? 'Pelanggan' : 'Reseller'} />
 
 
 

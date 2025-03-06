@@ -10,11 +10,13 @@ import {
   Dimensions,
   TouchableNativeFeedback,
 } from 'react-native';
-import { apiURL, getData } from '../../utils/localStorage';
+import { apiURL, getData, storeData } from '../../utils/localStorage';
 import { colors, fonts, windowWidth } from '../../utils';
 import axios from 'axios';
 import { useToast } from 'react-native-toast-notifications';
-
+import { Icon } from 'react-native-elements';
+import 'intl';
+import 'intl/locale-data/jsonp/id-ID';
 
 const windowHeight = Dimensions.get('window').height;
 
@@ -62,42 +64,45 @@ export default function Home({ navigation, route }) {
   const scrollX = useRef(new Animated.Value(0)).current; // Untuk animasi scroll
   const scrollViewRef = useRef(null); // Untuk mengontrol scroll view
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [mydashboard, setMyDashboard] = useState({
+    saldo_utama: 0,
+    saldo_bonus: 0,
+    transaksi: []
+  })
 
   const __getUser = () => {
     getData('user').then((u) => {
       setUser(u);
+      __getDashboarData(u.token)
     });
   };
 
-  useEffect(() => {
-    __getUser();
-  }, []);
+
 
   const toast = useToast();
-  const __getDashboarData = async () => {
-    try {
-      const response = await axios.get(apiURL + 'beliVoucher', {}, {
-        headers: {
-          'Authorization': `${user.token}`
-        }
+  const __getDashboarData = async (x) => {
+    console.log(x)
+    axios.request({
+      method: 'get',
+      maxBodyLength: Infinity,
+      url: apiURL + '/dashboard',
+      headers: {
+        'Authorization': x
+      },
+      data: ''
+    })
+      .then((response) => {
+        // console.log(response.data);
+        setMyDashboard(response.data)
+
+      })
+      .catch((error) => {
+        console.log(error);
       });
-
-      console.log('hasil', `${user.token}`);
-
-      if (response.data.status === 'success') {
-        // aksi jika berhasil
-        console.log(response.data);
-      } else {
-        toast.show(response.data.message);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      toast.show('Terjadi kesalahan, silakan coba lagi.');
-    }
   }
 
   useEffect(() => {
-    // __getDashboarData();
+    __getUser();
   }, [])
 
   return (
@@ -125,26 +130,88 @@ export default function Home({ navigation, route }) {
 
             <View>
               <Text style={{ fontFamily: fonts.secondary[600], fontSize: 16, color: colors.white }}>Halo, <Text style={{ fontFamily: fonts.secondary[800] }}>{user.nama}</Text></Text>
-              <Text style={{ fontFamily: fonts.secondary[800], fontSize: 20, color: colors.secondary }}>{user.tipe}</Text>
+              <Text style={{ fontFamily: fonts.secondary[800], fontSize: 20, color: colors.secondary }}>{user.tipe !== 'reseller' ? 'Pelanggan' : 'Reseller'}</Text>
               <Text style={{ fontFamily: fonts.secondary[400], fontSize: 14, color: colors.white }}>Jaringan Teman Sejati</Text>
 
             </View>
 
             <View>
               <Image style={{
-                height: 50,
-                width: 50,
-              }} source={require('../../assets/logo.png')} />
+                height: 40,
+                width: 80,
+              }} source={require('../../assets/newlogo.png')} />
             </View>
+
 
           </View>
           {/* end headers */}
-
+          <View style={{
+            paddingVertical: 10,
+            marginHorizontal: 10,
+            flexDirection: 'row',
+            justifyContent: 'space-between',
+          }}>
+            <View style={{
+              flex: 1,
+              marginHorizontal: 4,
+              borderRadius: 10,
+              backgroundColor: colors.white,
+              width: windowWidth / 2.5,
+              padding: 5,
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+              <View style={{
+                flexDirection: 'row',
+                alignItems: 'center',
+                marginBottom: 5,
+              }}>
+                <Icon type='ionicon' name='wallet' size={15} color={colors.primary} />
+                <Text style={{
+                  left: 4,
+                  fontFamily: fonts.secondary[600],
+                  fontSize: 12,
+                }}>Saldo</Text>
+              </View>
+              <Text style={{
+                fontFamily: fonts.secondary[800],
+                fontSize: 14,
+              }}>Rp {new Intl.NumberFormat().format(mydashboard.saldo_utama)}</Text>
+            </View>
+            {user.tipe == 'reseller' &&
+              <View style={{
+                marginHorizontal: 4,
+                borderRadius: 10,
+                backgroundColor: colors.white,
+                flex: 1,
+                padding: 5,
+                justifyContent: 'center',
+                alignItems: 'center'
+              }}>
+                <View style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginBottom: 5,
+                }}>
+                  <Icon type='ionicon' name='gift' size={15} color={colors.danger} />
+                  <Text style={{
+                    left: 4,
+                    fontFamily: fonts.secondary[600],
+                    fontSize: 12,
+                  }}>Bonus</Text>
+                </View>
+                <Text style={{
+                  fontFamily: fonts.secondary[800],
+                  fontSize: 14,
+                }}>Rp {new Intl.NumberFormat().format(mydashboard.saldo_bonus)}</Text>
+              </View>
+            }
+          </View>
           {/* menu */}
           <View style={{
-            padding: 10,
+            paddingHorizontal: 10,
 
-            marginTop: '20%'
+            marginTop: '2%'
           }}>
 
             <MyMenu onPress={() => navigation.navigate('Beli', user)} desc="Pembelian Voucher Pelanggan" label="Beli Voucher" img={require('../../assets/icon_voucher.png')} />
